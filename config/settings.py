@@ -40,6 +40,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
+    # Third-party
+    'allauth',
+    'allauth.account',
+    'material',
+
+    # Local
+    'apps.home.apps.HomeConfig',
+    'apps.users.apps.UsersConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -122,9 +133,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_FILES_DIRS = [str(BASE_DIR.joinpath('static'))]
+STATICFILES_DIRS = [str(BASE_DIR.joinpath('static'))]
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATIC_FILES_FINDERS = [
+STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
@@ -137,3 +148,22 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+AUTH_USER_MODEL = 'users.CustomUser'
+SITE_ID = 1
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+)
+
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
+ACCOUNT_LOGOUT_REDIRECT = 'home'
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+# ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+# ACCOUNT_EMAIL_VERIFICATION = 'none'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
